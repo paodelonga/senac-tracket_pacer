@@ -1,0 +1,6 @@
+interface FastEthernet0/1
+switchport trunk allowed vlan remove 1002
+switchport trunk allowed vlan remove 1003
+switchport trunk allowed vlan remove 1004
+switchport trunk allowed vlan remove 1005
+exit
