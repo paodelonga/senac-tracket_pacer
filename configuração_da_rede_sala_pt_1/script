@@ -10,55 +10,88 @@
 
 # cat <<< $stanza
 
-vlan_ids=(1 10 100{2,3,4,5})
+vlan_ids=(1 100{2,3,4,5})
+
+# Habilita modo privilegiado
+echo enable
+
+# Entra no modo de configuração
+echo configure terminal
 
 # Derrubar todas as portas
 echo interface range FastEthernet0/1-24
 echo shutdown
 echo exit
 
-# Subir todas as portas
-# echo interface range FastEthernet0/1-24
-# echo no shutdown
+# Joga a porta 18 em Access
+echo interface FastEthernet0/18
+echo switchport mode access
+echo exit
 
-# Joga todas as portas em Trunk
-echo interface range FastEthernet0/1-24
+# Joga todas as portas em Trunk exceto a 18
+echo interface range FastEthernet0/1-17
+echo switchport mode trunk
+echo interface range FastEthernet0/19-24
 echo switchport mode trunk
 echo exit
 
-# Remove VLANs de todas as portas
-echo interface range FastEthernet0/1-24
-for vlan in ${vlan_ids[@]}; do
-    echo "switchport trunk allowed vlan remove $vlan"
-done
+# Remove VLANs padrão de todas as portas
+# echo interface range FastEthernet0/1-24
+# for vlan in ${vlan_ids[@]}; do
+#     echo "switchport trunk allowed vlan remove $vlan"
+# done
+# echo exit
+
+# Cria uma nova VLAN 10
+echo vlan 10
+echo name REDE_SALA
 echo exit
 
-# for port in $(seq 1 24); do
-#     # Remover varias VLANs
-#     echo "interface FastEthernet0/$port"
-#     for vlan in ${vlan_ids[@]}; do
-#         echo "switchport trunk allowed vlan remove $vlan"
-#     done
-#     echo "exit"
-# done
+# Remove todas as portas da VLAN 10
+echo interface range FastEthernet0/1-24
+echo switchport trunk allowed vlan remove 10
+echo exit
 
-# Adicionar portas em VLAN 10
+# Adicionar portas de computadores em VLAN 10
 echo interface range FastEthernet0/1-5
 echo switchport trunk allowed vlan add 10
 echo exit
 
-# Configurar portas 10Mb/Half
+# Configurar portas de duplas 10Mb/Half
 echo interface range FastEthernet0/1-2
 echo speed 10
 echo duplex half
 echo exit
 
-# Configurar portas 10Mb/Full
+# Configurar portas de trios 10Mb/Full
 echo interface range FastEthernet0/3-5
 echo speed 10
 echo duplex full
 echo exit
 
-# Joga porta 16 em Access
-echo interface FastEthernet0/16
-echo switchport mode access
+# Configurar a porta do AP como 100Mb/Full
+echo interface FastEthernet0/20
+echo speed 100
+echo duplex full
+
+# Adiciona a porta do AP na VLAN 10
+echo switchport trunk allowed vlan add 10
+echo exit
+
+# Adiciona porta de switch - switch na VLAN 10
+echo interface range FastEthernet0/23-24
+echo switchport trunk allowed vlan add 10
+echo exit
+
+# Sobe todas as portas a serem utilizadas
+echo interface range FastEthernet0/1-5 # Computadores
+echo no shutdown
+echo interface FastEthernet0/18 # Acesso
+echo no shutdown
+echo interface FastEthernet0/20 # AP
+echo no shutdown
+echo interface range FastEthernet0/23-24 # Switch - Switch
+echo no shutdown
+echo exit
+
+
