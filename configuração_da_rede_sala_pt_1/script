@@ -94,4 +94,5 @@ echo interface range FastEthernet0/23-24 # Switch - Switch
 echo no shutdown
 echo exit
 
-
+# Salva as modificações feitas
+echo copy running-config startup-config
