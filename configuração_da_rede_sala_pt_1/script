@@ -96,7 +96,15 @@ echo no shutdown
 echo interface range FastEthernet0/23-24 # Switch - Switch
 echo no shutdown
 echo -e "exit\n"
-echo -e "exit\n"
+
+# Configuração caso nescessite remover o AP
+echo interface FastEthernet0/20
+echo switchport trunk allowed vlan remove 10
+echo speed auto
+echo duplex auto
+echo shutdown
+echo exit
 
 # Salva as modificações feitas
-echo copy running-config startup-config
+echo -e "exit"
+echo -e copy running-config startup-config
