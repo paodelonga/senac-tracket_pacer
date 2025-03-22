@@ -21,53 +21,55 @@ echo configure terminal
 # Derrubar todas as portas
 echo interface range FastEthernet0/1-24
 echo shutdown
-echo exit
+echo -e "exit\n"
 
 # Joga a porta 18 em Access
 echo interface FastEthernet0/18
 echo switchport mode access
-echo exit
+echo -e "exit\n"
 
 # Joga todas as portas em Trunk exceto a 18
 echo interface range FastEthernet0/1-17
 echo switchport mode trunk
 echo interface range FastEthernet0/19-24
 echo switchport mode trunk
-echo exit
+echo -e "exit\n"
 
 # Remove VLANs padrão de todas as portas
 # echo interface range FastEthernet0/1-24
 # for vlan in ${vlan_ids[@]}; do
 #     echo "switchport trunk allowed vlan remove $vlan"
 # done
-# echo exit
+# echo -e "exit\n"
 
 # Cria uma nova VLAN 10
 echo vlan 10
 echo name REDE_SALA
-echo exit
+echo -e "exit\n"
 
 # Remove todas as portas da VLAN 10
 echo interface range FastEthernet0/1-24
 echo switchport trunk allowed vlan remove 10
-echo exit
+echo -e "exit\n"
 
 # Adicionar portas de computadores em VLAN 10
+# Configuração extra do ultimo Switch requer alterar de 5 para 8
 echo interface range FastEthernet0/1-5
 echo switchport trunk allowed vlan add 10
-echo exit
+echo -e "exit\n"
 
 # Configurar portas de duplas 10Mb/Half
 echo interface range FastEthernet0/1-2
 echo speed 10
 echo duplex half
-echo exit
+echo -e "exit\n"
 
 # Configurar portas de trios 10Mb/Full
+# Configuração extra do ultimo Switch requer alterar de 5 para 8
 echo interface range FastEthernet0/3-5
 echo speed 10
 echo duplex full
-echo exit
+echo -e "exit\n"
 
 # Configurar a porta do AP como 100Mb/Full
 echo interface FastEthernet0/20
@@ -76,14 +78,15 @@ echo duplex full
 
 # Adiciona a porta do AP na VLAN 10
 echo switchport trunk allowed vlan add 10
-echo exit
+echo -e "exit\n"
 
 # Adiciona porta de switch - switch na VLAN 10
 echo interface range FastEthernet0/23-24
 echo switchport trunk allowed vlan add 10
-echo exit
+echo -e "exit\n"
 
 # Sobe todas as portas a serem utilizadas
+# Configuração extra do ultimo Switch requer alterar de 5 para 8
 echo interface range FastEthernet0/1-5 # Computadores
 echo no shutdown
 echo interface FastEthernet0/18 # Acesso
@@ -92,7 +95,8 @@ echo interface FastEthernet0/20 # AP
 echo no shutdown
 echo interface range FastEthernet0/23-24 # Switch - Switch
 echo no shutdown
-echo exit
+echo -e "exit\n"
+echo -e "exit\n"
 
 # Salva as modificações feitas
 echo copy running-config startup-config
