@@ -75,6 +75,7 @@ echo -e "exit\n"
 # echo interface FastEthernet0/20
 # echo speed auto
 # echo duplex auto
+# echo -e "exit\n"
 
 # Adiciona a porta do AP na VLAN 10
 echo switchport trunk allowed vlan add 10
