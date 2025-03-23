@@ -71,10 +71,10 @@ echo speed 10
 echo duplex full
 echo -e "exit\n"
 
-# Configurar a porta do AP como 100Mb/Full
-echo interface FastEthernet0/20
-echo speed 100
-echo duplex full
+# Configurar a porta do AP como auto
+# echo interface FastEthernet0/20
+# echo speed auto
+# echo duplex auto
 
 # Adiciona a porta do AP na VLAN 10
 echo switchport trunk allowed vlan add 10
@@ -98,12 +98,12 @@ echo no shutdown
 echo -e "exit\n"
 
 # Configuração caso nescessite remover o AP
-echo interface FastEthernet0/20
-echo switchport trunk allowed vlan remove 10
-echo speed auto
-echo duplex auto
-echo shutdown
-echo exit
+# echo interface FastEthernet0/20
+# echo switchport trunk allowed vlan remove 10
+# echo speed auto
+# echo duplex auto
+# echo shutdown
+# echo exit
 
 # Salva as modificações feitas
 echo -e "exit"
