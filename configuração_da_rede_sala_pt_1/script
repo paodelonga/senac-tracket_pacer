@@ -1,6 +1,5 @@
 #!/usr/bin/bash
 
-
 # stanza="interface FastEthernet0/1
 # switchport trunk allowed vlan remove 1002
 # switchport trunk allowed vlan remove 1003
@@ -10,99 +9,92 @@
 
 # cat <<< $stanza
 
-vlan_ids=(1 100{2,3,4,5})
-
 # Habilita modo privilegiado
-echo enable
+echo -e "enable\n"
 
 # Entra no modo de configuração
-echo configure terminal
+echo -e "configure terminal\n"
 
-# Derrubar todas as portas
+# Derruba todas as portas
 echo interface range FastEthernet0/1-24
 echo shutdown
 echo -e "exit\n"
 
-# Joga a porta 18 em Access
+# Altera o modo da porta 18 para Acesso
 echo interface FastEthernet0/18
 echo switchport mode access
 echo -e "exit\n"
 
-# Joga todas as portas em Trunk exceto a 18
+# Altera o modo de todas as portas (exceto a 18) para Trunk
 echo interface range FastEthernet0/1-17
 echo switchport mode trunk
 echo interface range FastEthernet0/19-24
 echo switchport mode trunk
 echo -e "exit\n"
 
-# Remove VLANs padrão de todas as portas
-# echo interface range FastEthernet0/1-24
-# for vlan in ${vlan_ids[@]}; do
-#     echo "switchport trunk allowed vlan remove $vlan"
-# done
-# echo -e "exit\n"
-
-# Cria uma nova VLAN 10
+# Cria uma VLAN 10 para a sala
 echo vlan 10
 echo name REDE_SALA
 echo -e "exit\n"
 
-# Remove todas as portas da VLAN 10
+# Remove a VLAN 10 de todas as portas
 echo interface range FastEthernet0/1-24
 echo switchport trunk allowed vlan remove 10
 echo -e "exit\n"
 
-# Adicionar portas de computadores em VLAN 10
-# Configuração extra do ultimo Switch requer alterar de 5 para 8
+# Adiciona as portas utilizadas pelos computadores na VLAN 10
+# - Devido ao trio extra no último Switch deve se alterar de 5 para 8
 echo interface range FastEthernet0/1-5
 echo switchport trunk allowed vlan add 10
 echo -e "exit\n"
 
-# Configurar portas de duplas 10Mb/Half
+# Configura as portas das duplas como 10Mb/Half
 echo interface range FastEthernet0/1-2
 echo speed 10
 echo duplex half
 echo -e "exit\n"
 
-# Configurar portas de trios 10Mb/Full
-# Configuração extra do ultimo Switch requer alterar de 5 para 8
+# Configura as portas dos trios como 10Mb/Full
+# - Devido ao trio extra no último Switch deve se alterar de 5 para 8
 echo interface range FastEthernet0/3-5
 echo speed 10
 echo duplex full
 echo -e "exit\n"
 
 # Configurar a porta do AP como auto
-# echo interface FastEthernet0/20
-# echo speed auto
-# echo duplex auto
-# echo -e "exit\n"
+# - por padrão já estão como auto, mas vamos
+#   configurar mesmo assim só pra garantir
+echo interface FastEthernet0/20
+echo speed auto
+echo duplex auto
+echo -e "exit\n"
 
-# Adiciona a porta do AP na VLAN 10
+# Adiciona a porta utilizada pelo AP na VLAN 10
 echo switchport trunk allowed vlan add 10
 echo -e "exit\n"
 
-# Adiciona porta de switch - switch na VLAN 10
+# Adiciona as portas utilizadas pelos Switchs na VLAN 10
+# - no primeiro Switch a porta 23 deve ser removida
+#   da VLAN 10 enquanto no último deve ser a 24
 echo interface range FastEthernet0/23-24
 echo switchport trunk allowed vlan add 10
 echo -e "exit\n"
 
 # Sobe todas as portas a serem utilizadas
-# Configuração extra do ultimo Switch requer alterar de 5 para 8
-echo interface range FastEthernet0/1-5 # Computadores
+# - Devido ao trio extra no último Switch deve se alterar de 5 para 8
+echo interface range FastEthernet0/1-5
 echo no shutdown
-echo interface FastEthernet0/18 # Acesso
+echo interface FastEthernet0/18
 echo no shutdown
-echo interface FastEthernet0/20 # AP
+echo interface FastEthernet0/20
 echo no shutdown
-echo interface range FastEthernet0/23-24 # Switch - Switch
+echo interface range FastEthernet0/23-24
 echo no shutdown
 echo -e "exit\n"
 
-# Configuração caso nescessite remover o AP
+# Configuração caso queira remover o AP da topologia
 # echo interface FastEthernet0/20
 # echo switchport trunk allowed vlan remove 10
-# echo speed auto
-# echo duplex auto
 # echo shutdown
 # echo exit
 
