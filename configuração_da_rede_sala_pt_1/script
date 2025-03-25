@@ -20,32 +20,15 @@ echo interface range FastEthernet0/1-24
 echo shutdown
 echo -e "exit\n"
 
-# Altera o modo da porta 18 para Acesso
-echo interface FastEthernet0/18
-echo switchport mode access
-echo -e "exit\n"
-
-# Altera o modo de todas as portas (exceto a 18) para Trunk
-echo interface range FastEthernet0/1-17
-echo switchport mode trunk
-echo interface range FastEthernet0/19-24
-echo switchport mode trunk
-echo -e "exit\n"
-
 # Cria uma VLAN 10 para a sala
 echo vlan 10
 echo name REDE_SALA
 echo -e "exit\n"
 
-# Remove a VLAN 10 de todas as portas
-echo interface range FastEthernet0/1-24
-echo switchport trunk allowed vlan remove 10
-echo -e "exit\n"
-
 # Adiciona as portas utilizadas pelos computadores na VLAN 10
 # - Devido ao trio extra no último Switch deve se alterar de 5 para 8
 echo interface range FastEthernet0/1-5
-echo switchport trunk allowed vlan add 10
+22echo switchport access vlan 10
 echo -e "exit\n"
 
 # Configura as portas das duplas como 10Mb/Half
@@ -61,23 +44,16 @@ echo speed 10
 echo duplex full
 echo -e "exit\n"
 
-# Configurar a porta do AP como auto
-# - por padrão já estão como auto, mas vamos
-#   configurar mesmo assim só pra garantir
-echo interface FastEthernet0/20
-echo speed auto
-echo duplex auto
-echo -e "exit\n"
-
 # Adiciona a porta utilizada pelo AP na VLAN 10
-echo switchport trunk allowed vlan add 10
+echo interface FastEthernet0/20
+echo switchport access vlan 10
 echo -e "exit\n"
 
-# Adiciona as portas utilizadas pelos Switchs na VLAN 10
+# Configura as portas dos Switchs em modo Trunk
 # - no primeiro Switch a porta 23 deve ser removida
 #   da VLAN 10 enquanto no último deve ser a 24
 echo interface range FastEthernet0/23-24
-echo switchport trunk allowed vlan add 10
+echo switchport mode trunk
 echo -e "exit\n"
 
 # Sobe todas as portas a serem utilizadas
@@ -94,7 +70,7 @@ echo -e "exit\n"
 
 # Configuração caso queira remover o AP da topologia
 # echo interface FastEthernet0/20
-# echo switchport trunk allowed vlan remove 10
+# echo switchport access vlan 1
 # echo shutdown
 # echo exit
 
