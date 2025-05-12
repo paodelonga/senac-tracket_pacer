@@ -1,0 +1,53 @@
+#!/bin/bash
+# VLAN 10 | REDE AZUL
+# VLAN 20 | REDE LARANJA
+
+# Opt
+echo """
+enable
+conf term
+"""
+
+# SW1
+echo """
+vlan 10
+name REDE_AZUL
+
+vlan 20
+name REDE_LARANJA
+
+int gig 0/1
+sw mo tr
+sw tr al vl 10,20
+
+int fa 0/1
+sw ac vl 10
+
+int fa 0/2
+sw ac vl 20
+
+do cop ru st
+"""
+
+echo "=================="
+
+# SW2
+echo """
+vlan 10
+name REDE_AZUL
+
+vlan 20
+name REDE_LARANJA
+
+int gig 0/1
+sw mo tr
+sw tr al vl 10,20
+
+int fa 0/1
+sw ac vl 20
+
+int fa 0/2
+sw ac vl 10
+
+do cop ru st
+"""
