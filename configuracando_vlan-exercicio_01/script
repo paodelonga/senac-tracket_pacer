@@ -1,0 +1,23 @@
+#!/bin/bash
+# ARAÚJO | VLAN 100
+# LUCIANA | VLAN 200
+
+# Opt
+# echo enable # SW>
+# echo conf term # SW#
+
+echo """
+vlan 100
+name REDE_ARAUJO
+
+vlan 200
+name REDE_LUCIANA
+
+int fa 0/1
+sw ac vl 100
+
+int fa 0/4
+sw ac vl 200
+
+do cop ru st
+"""
