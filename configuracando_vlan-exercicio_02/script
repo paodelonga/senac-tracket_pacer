@@ -1,0 +1,29 @@
+#!/usr/bin/bash
+
+# SW1
+echo """
+vlan 10
+name REDE_AZUL
+
+int fa 0/1
+sw ac vl 10
+
+int gig 0/1
+sw ac vl 10
+
+do cop ru st
+"""
+
+# SW2
+echo """
+vlan 10
+name REDE_AZUL
+
+int fa 0/2
+sw ac vl 10
+
+int gig 0/1
+sw ac vl 10
+
+do cop ru st
+"""
