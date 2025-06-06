@@ -28,7 +28,7 @@ echo -e "exit\n"
 # Adiciona as portas utilizadas pelos computadores na VLAN 10
 # - Devido ao trio extra no último Switch deve se alterar de 5 para 8
 echo interface range FastEthernet0/1-5
-22echo switchport access vlan 10
+echo switchport access vlan 10
 echo -e "exit\n"
 
 # Configura as portas das duplas como 10Mb/Half
