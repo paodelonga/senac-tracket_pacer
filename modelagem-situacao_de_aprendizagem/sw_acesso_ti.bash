@@ -7,15 +7,15 @@ echo -e "enable"
 echo -e "configure terminal\n"
 
 # Definir hostname
-echo -e "hostname SW_AC_RH\n"
+echo -e "hostname SW_AC_TI\n"
 
 # Criar VLAN para a rede
 echo -e "vlan 10"
-echo -e "name REDE_RH\n"
+echo -e "name REDE_TI\n"
+echo -e "switchport access vlan 10"
 
 # Atribuir VLANs as portas a serem utilizadas
-echo -e "interface range fa 0/1-6"
-echo -e "switchport access vlan 10"
+echo -e "interface range fa 0/1-4"
 echo -e "duplex auto"
 echo -e "speed auto"
 echo -e "no shutdown\n"
@@ -26,14 +26,21 @@ echo -e "duplex auto"
 echo -e "speed auto"
 echo -e "no shutdown\n"
 
+echo -e "interface gi 0/1"
+echo -e "switchport mode trunk"
+echo -e "switchport trunk allowed vlan 10"
+echo -e "duplex full"
+echo -e "speed 1000"
+echo -e "no shutdown\n"
+
 # Desligar e reconfigurar as portas não utilizadas
-echo -e "interface range fa 0/7-23"
+echo -e "interface range fa 0/5-23"
 echo -e "switchport access vlan 1"
 echo -e "duplex auto"
 echo -e "speed auto"
 echo -e "shutdown\n"
 
-echo -e "interface ra gi 0/1-2"
+echo -e "interface ra gi 0/2"
 echo -e "switchport access vlan 1"
 echo -e "duplex auto"
 echo -e "speed auto"
@@ -43,3 +50,5 @@ echo -e "exit\n"
 # Salva as modificações feitas
 echo -e "exit"
 echo -e "copy running-config startup-config"
+echo -e ""
+echo -e "disable"
