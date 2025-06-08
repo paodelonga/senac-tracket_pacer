@@ -1,0 +1,4 @@
+- switch central
+- camada de distribuição
+- access point
+- uplink
