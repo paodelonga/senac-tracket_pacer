@@ -43,4 +43,25 @@ do cop ru st
 
 ---
 
+int gig4/0 192.168.10.254 255.255.255.0
+no shutdown
+int gig5/0 12.12.12.1 255.255.255.0
+no shutdown
+int gig6/0 12.12.12.1 255.255.255.0
+no shutdown
+
+int gig4/0 192.168.20.254 255.255.255.0
+no shutdown
+int gig5/0 12.12.12.2 255.255.255.0
+no shutdown
+int gig6/0 24.24.24.2 255.255.255.0
+no shutdown
+
+int gig4/0 192.168.30.254 255.255.255.0
+no shutdown
+int gig5/0 34.34.34.3 255.255.255.0
+no shutdown
+int gig6/0 13.13.13.3 255.255.255.0
+no shutdown
+
 
